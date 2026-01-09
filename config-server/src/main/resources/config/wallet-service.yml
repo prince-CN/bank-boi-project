@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: wallet-service
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/wallet_db?createDatabaseIfNotExist=true
+    username: ${database.common.username}
+    password: ${database.common.password}
+    driver-class-name: ${database.common.driver-class-name}
+  
+  jpa:
+    hibernate:
+      ddl-auto: ${jpa.common.hibernate.ddl-auto}
+    show-sql: ${jpa.common.show-sql}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: ${jpa.common.properties.hibernate.format_sql}
+  
+  kafka:
+    bootstrap-servers: ${kafka.common.bootstrap-servers}
+    consumer:
+      group-id: wallet-service-group
+      auto-offset-reset: ${kafka.common.consumer.auto-offset-reset}
+      key-deserializer: ${kafka.common.consumer.key-deserializer}
+      value-deserializer: ${kafka.common.consumer.value-deserializer}
+      properties:
+        spring.json.trusted.packages: ${kafka.common.consumer.properties.spring.json.trusted.packages}
+    producer:
+      key-serializer: ${kafka.common.producer.key-serializer}
+      value-serializer: ${kafka.common.producer.value-serializer}
+      acks: ${kafka.common.producer.acks}
+      retries: ${kafka.common.producer.retries}
+
+server:
+  port: 8083
+
+kafka:
+  topics:
+    transaction-initiated: TRANSACTION_INITIATED
+    wallet-updated: WALLET_UPDATED
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.client.service-url.defaultZone}
+    register-with-eureka: ${eureka.client.register-with-eureka}
+    fetch-registry: ${eureka.client.fetch-registry}
+  instance:
+    prefer-ip-address: ${eureka.instance.prefer-ip-address}
+    instance-id: ${spring.application.name}:${random.value}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${management.endpoints.web.exposure.include}
+  endpoint:
+    health:
+      show-details: ${management.endpoint.health.show-details}
+
+logging:
+  level:
+    com.banking: ${logging.level.com.banking}
+    org.springframework.kafka: INFO
+    org.hibernate: INFO

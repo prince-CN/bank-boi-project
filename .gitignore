@@ -1,0 +1,45 @@
+# Java
+*.class
+*.jar
+*.war
+*.ear
+target/
+*.log
+.mvn/
+mvnw
+mvnw.cmd
+
+# Spring Boot
+application-*.properties
+application-*.yml
+
+# Node.js
+node_modules/
+npm-debug.log
+yarn-error.log
+build/
+dist/
+.env.local
+.env.*.local
+
+# IDEs
+.idea/
+*.iml
+.vscode/
+*.swp
+*.swo
+.DS_Store
+
+# Docker
+docker-compose.override.yml
+
+# Environment
+.env
+
+# Logs
+logs/
+*.log
+
+# Database
+*.db
+*.sqlite

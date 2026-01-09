@@ -1,0 +1,50 @@
+spring:
+  application:
+    name: auth-service
+  
+  datasource:
+    url: jdbc:mysql://localhost:3306/auth_db?createDatabaseIfNotExist=true
+    username: ${database.common.username}
+    password: ${database.common.password}
+    driver-class-name: ${database.common.driver-class-name}
+  
+  jpa:
+    hibernate:
+      ddl-auto: ${jpa.common.hibernate.ddl-auto}
+    show-sql: ${jpa.common.show-sql}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQLDialect
+        format_sql: ${jpa.common.properties.hibernate.format_sql}
+
+server:
+  port: 8080
+
+jwt:
+  secret: ${jwt.secret}
+  expiration: ${jwt.expiration}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.client.service-url.defaultZone}
+    register-with-eureka: ${eureka.client.register-with-eureka}
+    fetch-registry: ${eureka.client.fetch-registry}
+  instance:
+    prefer-ip-address: ${eureka.instance.prefer-ip-address}
+    instance-id: ${spring.application.name}:${random.value}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${management.endpoints.web.exposure.include}
+  endpoint:
+    health:
+      show-details: ${management.endpoint.health.show-details}
+
+logging:
+  level:
+    com.banking: ${logging.level.com.banking}
+    org.springframework.security: INFO
+    org.hibernate: INFO

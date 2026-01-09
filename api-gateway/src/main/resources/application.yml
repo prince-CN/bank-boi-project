@@ -1,0 +1,120 @@
+spring:
+  application:
+    name: api-gateway
+  
+  # Gateway Configuration
+  cloud:
+    gateway:
+      # Enable discovery-based routing
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      
+      # Manual route configuration for better control
+      routes:
+        # Auth Service Routes
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<segment>.*), /api/auth/${segment}
+        
+        # Account Service Routes
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/api/accounts/**
+          filters:
+            - RewritePath=/api/accounts/(?<segment>.*), /api/accounts/${segment}
+        
+        # Transaction Service Routes
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/api/transactions/**
+          filters:
+            - RewritePath=/api/transactions/(?<segment>.*), /api/transactions/${segment}
+        
+        # Wallet Service Routes
+        - id: wallet-service
+          uri: lb://wallet-service
+          predicates:
+            - Path=/api/wallets/**
+          filters:
+            - RewritePath=/api/wallets/(?<segment>.*), /api/wallets/${segment}
+        
+        # Fraud Service Routes
+        - id: fraud-service
+          uri: lb://fraud-service
+          predicates:
+            - Path=/api/fraud/**
+          filters:
+            - RewritePath=/api/fraud/(?<segment>.*), /api/fraud/${segment}
+        
+        # Notification Service Routes
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - RewritePath=/api/notifications/(?<segment>.*), /api/notifications/${segment}
+      
+      # Global CORS Configuration
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins: 
+              - "http://localhost:3000"
+              - "http://localhost:5173"
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+
+# Server Configuration
+server:
+  port: 9090
+
+# JWT Configuration
+jwt:
+  secret: banking-system-super-secret-key-2026-change-in-production
+  expiration: 86400000
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway
+  endpoint:
+    health:
+      show-details: always
+    gateway:
+      enabled: true
+
+# Logging
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.banking: DEBUG
+    reactor.netty: INFO

@@ -1,0 +1,105 @@
+spring:
+  application:
+    name: api-gateway
+  
+  cloud:
+    gateway:
+      discovery:
+        locator:
+          enabled: true
+          lower-case-service-id: true
+      
+      routes:
+        - id: auth-service
+          uri: lb://auth-service
+          predicates:
+            - Path=/api/auth/**
+          filters:
+            - RewritePath=/api/auth/(?<segment>.*), /${segment}
+        
+        - id: account-service
+          uri: lb://account-service
+          predicates:
+            - Path=/api/accounts/**
+          filters:
+            - RewritePath=/api/accounts/(?<segment>.*), /api/accounts/${segment}
+        
+        - id: transaction-service
+          uri: lb://transaction-service
+          predicates:
+            - Path=/api/transactions/**
+          filters:
+            - RewritePath=/api/transactions/(?<segment>.*), /api/transactions/${segment}
+        
+        - id: wallet-service
+          uri: lb://wallet-service
+          predicates:
+            - Path=/api/wallets/**
+          filters:
+            - RewritePath=/api/wallets/(?<segment>.*), /api/wallets/${segment}
+        
+        - id: fraud-service
+          uri: lb://fraud-service
+          predicates:
+            - Path=/api/fraud/**
+          filters:
+            - RewritePath=/api/fraud/(?<segment>.*), /api/fraud/${segment}
+        
+        - id: notification-service
+          uri: lb://notification-service
+          predicates:
+            - Path=/api/notifications/**
+          filters:
+            - RewritePath=/api/notifications/(?<segment>.*), /api/notifications/${segment}
+      
+      globalcors:
+        cors-configurations:
+          '[/**]':
+            allowedOrigins:
+              - "http://localhost:3000"
+              - "http://localhost:5173"
+              - "http://localhost:4200"
+            allowedMethods:
+              - GET
+              - POST
+              - PUT
+              - DELETE
+              - PATCH
+              - OPTIONS
+            allowedHeaders: "*"
+            allowCredentials: true
+            maxAge: 3600
+
+server:
+  port: 9090
+
+jwt:
+  secret: ${jwt.secret}
+  expiration: ${jwt.expiration}
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.client.service-url.defaultZone}
+    register-with-eureka: ${eureka.client.register-with-eureka}
+    fetch-registry: ${eureka.client.fetch-registry}
+  instance:
+    prefer-ip-address: ${eureka.instance.prefer-ip-address}
+    instance-id: ${spring.application.name}:${random.value}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics,gateway
+  endpoint:
+    health:
+      show-details: ${management.endpoint.health.show-details}
+    gateway:
+      enabled: true
+
+logging:
+  level:
+    org.springframework.cloud.gateway: DEBUG
+    com.banking: ${logging.level.com.banking}
+    reactor.netty: INFO

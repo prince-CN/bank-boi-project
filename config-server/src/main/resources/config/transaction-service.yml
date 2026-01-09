@@ -1,0 +1,66 @@
+spring:
+  application:
+    name: transaction-service
+  
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transaction_db
+    username: postgres
+    password: Prince@123
+    driver-class-name: org.postgresql.Driver
+  
+  jpa:
+    hibernate:
+      ddl-auto: ${jpa.common.hibernate.ddl-auto}
+    show-sql: ${jpa.common.show-sql}
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: ${jpa.common.properties.hibernate.format_sql}
+  
+  kafka:
+    bootstrap-servers: ${kafka.common.bootstrap-servers}
+    producer:
+      key-serializer: ${kafka.common.producer.key-serializer}
+      value-serializer: ${kafka.common.producer.value-serializer}
+      acks: ${kafka.common.producer.acks}
+      retries: ${kafka.common.producer.retries}
+    properties:
+      spring.json.trusted.packages: ${kafka.common.consumer.properties.spring.json.trusted.packages}
+
+server:
+  port: 8082
+
+jwt:
+  secret: ${jwt.secret}
+  expiration: ${jwt.expiration}
+
+kafka:
+  topics:
+    transaction-initiated: TRANSACTION_INITIATED
+    transaction-success: TRANSACTION_SUCCESS
+    transaction-failed: TRANSACTION_FAILED
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.client.service-url.defaultZone}
+    register-with-eureka: ${eureka.client.register-with-eureka}
+    fetch-registry: ${eureka.client.fetch-registry}
+  instance:
+    prefer-ip-address: ${eureka.instance.prefer-ip-address}
+    instance-id: ${spring.application.name}:${random.value}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${management.endpoints.web.exposure.include}
+  endpoint:
+    health:
+      show-details: ${management.endpoint.health.show-details}
+
+logging:
+  level:
+    com.banking: ${logging.level.com.banking}
+    org.springframework.kafka: INFO
+    org.hibernate: INFO

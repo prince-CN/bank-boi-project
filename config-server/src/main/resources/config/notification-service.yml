@@ -1,0 +1,51 @@
+spring:
+  application:
+    name: notification-service
+  
+  data:
+    mongodb:
+      uri: mongodb://admin:admin123@localhost:27017/banking_db?authSource=admin
+      database: banking_db
+  
+  kafka:
+    bootstrap-servers: ${kafka.common.bootstrap-servers}
+    consumer:
+      group-id: notification-service-group
+      auto-offset-reset: ${kafka.common.consumer.auto-offset-reset}
+      key-deserializer: ${kafka.common.consumer.key-deserializer}
+      value-deserializer: ${kafka.common.consumer.value-deserializer}
+      properties:
+        spring.json.trusted.packages: ${kafka.common.consumer.properties.spring.json.trusted.packages}
+
+server:
+  port: 8085
+
+kafka:
+  topics:
+    transaction-success: TRANSACTION_SUCCESS
+    fraud-alert: FRAUD_ALERT
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.client.service-url.defaultZone}
+    register-with-eureka: ${eureka.client.register-with-eureka}
+    fetch-registry: ${eureka.client.fetch-registry}
+  instance:
+    prefer-ip-address: ${eureka.instance.prefer-ip-address}
+    instance-id: ${spring.application.name}:${random.value}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${management.endpoints.web.exposure.include}
+  endpoint:
+    health:
+      show-details: ${management.endpoint.health.show-details}
+
+logging:
+  level:
+    com.banking: ${logging.level.com.banking}
+    org.springframework.kafka: INFO
+    org.springframework.data.mongodb: INFO

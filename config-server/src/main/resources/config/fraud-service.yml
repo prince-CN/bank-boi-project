@@ -1,0 +1,62 @@
+spring:
+  application:
+    name: fraud-service
+  
+  data:
+    mongodb:
+      uri: mongodb://admin:admin123@localhost:27017/banking_db?authSource=admin
+      database: banking_db
+  
+  kafka:
+    bootstrap-servers: ${kafka.common.bootstrap-servers}
+    consumer:
+      group-id: fraud-service-group
+      auto-offset-reset: ${kafka.common.consumer.auto-offset-reset}
+      key-deserializer: ${kafka.common.consumer.key-deserializer}
+      value-deserializer: ${kafka.common.consumer.value-deserializer}
+      properties:
+        spring.json.trusted.packages: ${kafka.common.consumer.properties.spring.json.trusted.packages}
+    producer:
+      key-serializer: ${kafka.common.producer.key-serializer}
+      value-serializer: ${kafka.common.producer.value-serializer}
+      acks: ${kafka.common.producer.acks}
+      retries: ${kafka.common.producer.retries}
+
+server:
+  port: 8084
+
+kafka:
+  topics:
+    transaction-initiated: TRANSACTION_INITIATED
+    fraud-alert: FRAUD_ALERT
+
+fraud:
+  detection:
+    high-amount-threshold: 50000.00
+    rapid-transaction-window-minutes: 5
+    rapid-transaction-count: 5
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${eureka.client.service-url.defaultZone}
+    register-with-eureka: ${eureka.client.register-with-eureka}
+    fetch-registry: ${eureka.client.fetch-registry}
+  instance:
+    prefer-ip-address: ${eureka.instance.prefer-ip-address}
+    instance-id: ${spring.application.name}:${random.value}
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: ${management.endpoints.web.exposure.include}
+  endpoint:
+    health:
+      show-details: ${management.endpoint.health.show-details}
+
+logging:
+  level:
+    com.banking: ${logging.level.com.banking}
+    org.springframework.kafka: INFO
+    org.springframework.data.mongodb: INFO

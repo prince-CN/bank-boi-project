@@ -1,0 +1,75 @@
+spring:
+  application:
+    name: transaction-service
+  
+  # PostgreSQL Configuration
+  datasource:
+    url: jdbc:postgresql://localhost:5432/transaction_db
+    username: postgres
+    password: Prince@123
+    driver-class-name: org.postgresql.Driver
+  
+  # JPA Configuration
+  jpa:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        format_sql: true
+  
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+    properties:
+      spring.json.trusted.packages: "*"
+
+# Server Configuration
+server:
+  port: 8082
+
+# JWT Configuration
+jwt:
+  secret: banking-system-super-secret-key-2026-change-in-production
+  expiration: 86400000
+
+# Kafka Topics
+kafka:
+  topics:
+    transaction-initiated: TRANSACTION_INITIATED
+    transaction-success: TRANSACTION_SUCCESS
+    transaction-failed: TRANSACTION_FAILED
+
+# Logging
+logging:
+  level:
+    com.banking: DEBUG
+    org.springframework.kafka: INFO
+    org.hibernate: INFO
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always

@@ -1,0 +1,58 @@
+spring:
+  application:
+    name: notification-service
+  
+  # MongoDB Configuration
+  data:
+    mongodb:
+      uri: mongodb://admin:admin123@localhost:27017/banking_db?authSource=admin
+      database: banking_db
+  
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: notification-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+# Server Configuration
+server:
+  port: 8085
+
+# Kafka Topics
+kafka:
+  topics:
+    transaction-success: TRANSACTION_SUCCESS
+    fraud-alert: FRAUD_ALERT
+
+# Logging
+logging:
+  level:
+    com.banking: DEBUG
+    org.springframework.kafka: INFO
+    org.springframework.data.mongodb: INFO
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always

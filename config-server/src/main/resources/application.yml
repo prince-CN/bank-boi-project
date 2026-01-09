@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: config-server
+  
+  # Config Server Configuration
+  cloud:
+    config:
+      server:
+        native:
+          search-locations: classpath:/config
+  profiles:
+    active: native
+
+# Server Configuration
+server:
+  port: 8888
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+# Logging
+logging:
+  level:
+    org.springframework.cloud: DEBUG

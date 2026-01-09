@@ -1,0 +1,17 @@
+package com.banking.transaction.repository;
+
+import com.banking.transaction.entity.Transaction;
+import com.banking.transaction.entity.TransactionStatus;
+import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.stereotype.Repository;
+import java.util.List;
+
+@Repository
+public interface TransactionRepository extends JpaRepository<Transaction, Long> {
+    
+    List<Transaction> findByFromAccountOrToAccountOrderByCreatedAtDesc(String fromAccount, String toAccount);
+    
+    List<Transaction> findByStatus(TransactionStatus status);
+    
+    List<Transaction> findByFromAccountAndStatus(String fromAccount, TransactionStatus status);
+}

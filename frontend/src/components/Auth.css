@@ -1,0 +1,301 @@
+/* Professional Banking Auth UI - BOI Digital Bank */
+
+.auth-container {
+  min-height: 100vh;
+  display: flex;
+  background: linear-gradient(135deg, var(--primary-blue) 0%, var(--accent-blue) 100%);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Decorative Background Elements */
+.auth-container::before {
+  content: '';
+  position: absolute;
+  top: -50%;
+  right: -10%;
+  width: 600px;
+  height: 600px;
+  background: radial-gradient(circle, rgba(249, 115, 22, 0.2), transparent);
+  border-radius: 50%;
+}
+
+.auth-container::after {
+  content: '';
+  position: absolute;
+  bottom: -30%;
+  left: -10%;
+  width: 500px;
+  height: 500px;
+  background: radial-gradient(circle, rgba(251, 191, 36, 0.15), transparent);
+  border-radius: 50%;
+}
+
+/* Left Side - Branding */
+.auth-branding {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding: 60px;
+  color: white;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-logo {
+  width: 180px;
+  height: 180px;
+  margin-bottom: 40px;
+  filter: drop-shadow(0 10px 30px rgba(0, 0, 0, 0.3));
+  animation: fadeInUp 0.8s ease-out;
+}
+
+.auth-branding h1 {
+  font-size: 3rem;
+  font-weight: 800;
+  color: white;
+  margin-bottom: 16px;
+  text-shadow: 0 4px 12px rgba(0, 0, 0, 0.2);
+  animation: fadeInUp 1s ease-out;
+}
+
+.auth-branding .tagline {
+  font-size: 1.25rem;
+  color: rgba(255, 255, 255, 0.9);
+  font-weight: 300;
+  text-align: center;
+  max-width: 400px;
+  animation: fadeInUp 1.2s ease-out;
+}
+
+.auth-branding .features {
+  margin-top: 60px;
+  display: grid;
+  gap: 24px;
+}
+
+.feature-item {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  animation: fadeInUp 1.4s ease-out;
+}
+
+.feature-icon {
+  width: 50px;
+  height: 50px;
+  background: rgba(249, 115, 22, 0.2);
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 24px;
+}
+
+.feature-text h3 {
+  font-size: 1.1rem;
+  color: white;
+  margin-bottom: 4px;
+}
+
+.feature-text p {
+  font-size: 0.9rem;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+/* Right Side - Auth Form */
+.auth-form-section {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 60px;
+  position: relative;
+  z-index: 1;
+}
+
+.auth-card {
+  background: var(--bg-secondary);
+  padding: 50px;
+  border-radius: 24px;
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.3);
+  width: 100%;
+  max-width: 480px;
+  animation: slideInRight 0.8s ease-out;
+}
+
+.auth-card-header {
+  text-align: center;
+  margin-bottom: 40px;
+}
+
+.auth-card-header h2 {
+  font-size: 2rem;
+  color: var(--text-primary);
+  margin-bottom: 8px;
+}
+
+.auth-card-header p {
+  color: var(--text-secondary);
+  font-size: 1rem;
+}
+
+/* Form Inputs */
+.form-group {
+  margin-bottom: 24px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 600;
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 16px;
+  border: 2px solid var(--border-color);
+  border-radius: 12px;
+  font-size: 1rem;
+  transition: all 0.3s ease;
+  background: var(--bg-tertiary);
+  color: var(--text-primary);
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #f97316;
+  background: var(--bg-secondary);
+  box-shadow: 0 0 0 4px rgba(249, 115, 22, 0.1);
+}
+
+.form-group input::placeholder {
+  color: #94a3b8;
+}
+
+/* Submit Button */
+.submit-btn {
+  width: 100%;
+  padding: 18px;
+  background: linear-gradient(135deg, #f97316, #fb923c);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 8px 20px rgba(249, 115, 22, 0.3);
+  margin-top: 8px;
+}
+
+.submit-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 28px rgba(249, 115, 22, 0.4);
+}
+
+.submit-btn:active {
+  transform: translateY(0);
+}
+
+.submit-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Links */
+.auth-link {
+  text-align: center;
+  margin-top: 24px;
+  color: var(--text-secondary);
+  font-size: 0.95rem;
+}
+
+.auth-link a {
+  color: #f97316;
+  font-weight: 600;
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.auth-link a:hover {
+  color: #ea580c;
+  text-decoration: underline;
+}
+
+/* Error/Success Messages */
+.auth-message {
+  padding: 16px;
+  border-radius: 12px;
+  margin-bottom: 24px;
+  font-weight: 500;
+  text-align: center;
+}
+
+.auth-message.error {
+  background: linear-gradient(135deg, #fee2e2, #fecaca);
+  color: #991b1b;
+  border: 1px solid #fca5a5;
+}
+
+.auth-message.success {
+  background: linear-gradient(135deg, #d1fae5, #a7f3d0);
+  color: #065f46;
+  border: 1px solid #6ee7b7;
+}
+
+/* Animations */
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInRight {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+  .auth-branding {
+    display: none;
+  }
+
+  .auth-form-section {
+    flex: 1;
+    padding: 40px 20px;
+  }
+}
+
+@media (max-width: 640px) {
+  .auth-card {
+    padding: 30px 24px;
+  }
+
+  .auth-card-header h2 {
+    font-size: 1.5rem;
+  }
+
+  .submit-btn {
+    padding: 16px;
+    font-size: 1rem;
+  }
+}

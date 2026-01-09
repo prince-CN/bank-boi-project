@@ -1,0 +1,66 @@
+# Common Configuration for All Services
+# This config is shared across all microservices
+
+# Common Database Settings (MySQL)
+database:
+  common:
+    username: root
+    password: Prince@123
+    driver-class-name: com.mysql.cj.jdbc.Driver
+
+# Common JPA Settings
+jpa:
+  common:
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+    properties:
+      hibernate:
+        format_sql: true
+
+# Common JWT Settings
+jwt:
+  secret: banking-system-super-secret-key-2026-change-in-production
+  expiration: 86400000
+
+# Common Kafka Settings
+kafka:
+  common:
+    bootstrap-servers: localhost:9092
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+    consumer:
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+
+# Common Eureka Client Settings
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+
+# Common Actuator Settings
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
+
+# Common Logging
+logging:
+  level:
+    com.banking: DEBUG
+    org.springframework: INFO

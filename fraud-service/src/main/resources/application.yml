@@ -1,0 +1,70 @@
+spring:
+  application:
+    name: fraud-service
+  
+  # MongoDB Configuration
+  data:
+    mongodb:
+      uri: mongodb://admin:admin123@localhost:27017/banking_db?authSource=admin
+      database: banking_db
+  
+  # Kafka Configuration
+  kafka:
+    bootstrap-servers: localhost:9092
+    consumer:
+      group-id: fraud-service-group
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+      properties:
+        spring.json.trusted.packages: "*"
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+      acks: all
+      retries: 3
+
+# Server Configuration
+server:
+  port: 8084
+
+# Kafka Topics
+kafka:
+  topics:
+    transaction-initiated: TRANSACTION_INITIATED
+    fraud-alert: FRAUD_ALERT
+
+# Fraud Detection Configuration
+fraud:
+  detection:
+    high-amount-threshold: 50000.00
+    rapid-transaction-window-minutes: 5
+    rapid-transaction-count: 5
+
+# Logging
+logging:
+  level:
+    com.banking: DEBUG
+    org.springframework.kafka: INFO
+    org.springframework.data.mongodb: INFO
+
+# Eureka Client Configuration
+eureka:
+  client:
+    service-url:
+      defaultZone: http://localhost:8761/eureka/
+    register-with-eureka: true
+    fetch-registry: true
+  instance:
+    prefer-ip-address: true
+    instance-id: ${spring.application.name}:${random.value}
+
+# Actuator Configuration
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,metrics
+  endpoint:
+    health:
+      show-details: always
